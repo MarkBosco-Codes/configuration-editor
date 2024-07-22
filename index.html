@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width">
+    <!--Copyright Mark Bosco 2024-->
+<head>
+    <meta charset="UTF-8">
+    <title>Configuration Editor</title>
+
+    <style>
+
+                * {
+        font-family:verdana;
+        text-align: center;
+        position: relative;
+        background-color:black;
+        color:white;
+
+
+        }
+        textarea {
+          resize: none;
+          text-align: left;
+          padding-left: 20px;
+          padding-top: 8px;
+        }
+              button {
+          margin-left:20px;
+
+          background-color:#636363;
+          border:none;
+          border-radius: 5px;
+          font-size: 1.3em;
+        }
+
+        button:hover{
+          background-color:green;
+        }
+
+
+        input{
+
+            border:solid white;
+
+        }
+        .instructions{
+            font-style: italic;
+
+        }
+
+        a:hover{
+            color:#469110;
+        }
+
+        a{
+            text-decoration: underline
+        }
+    </style>
+
+    </head>
+
+<body>
+
+    <h1>Configuration Editor</h1>
+
+    <div id='inputs'>
+
+    </div>
+    <div class="paramInput">
+            <label for="var1">Title:</label>
+            <input size="30" placeholder="My Safety Checklist" name="title" id="title">
+        </div>
+
+
+        <br>
+    <div id='divtemplate'>
+    <p class="instructions">Template Text:</p>
+    <textarea id="template" name="template" cols="40">==CATEGORY 1
+Question 1
+Question 2
+
+==CATEGORY 2
+Question 1
+    </textarea>
+        <br>
+        <br>
+    <button id='export' onclick='exportconfig()'>Export to clipboard</button>
+
+    </div>
+
+
+
+
+<script>
+const tx = document.getElementsByTagName("textarea");
+for (let i = 0; i < tx.length; i++) {
+  tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;overflow-y:hidden;");
+  tx[i].addEventListener("input", OnInput, false);
+}
+
+function OnInput() {
+  this.style.height = 'auto';
+  this.style.height = (this.scrollHeight) + "px";
+}
+
+    function createElementFromHTML(htmlString) {
+  var div = document.createElement('div');
+  div.innerHTML = htmlString.trim();
+
+  // Change this to div.childNodes to support multiple top-level nodes.
+  return div.firstChild;
+}
+
+
+    function createElementFromHTML(htmlString) {
+  var div = document.createElement('div');
+  div.innerHTML = htmlString.trim();
+
+  // Change this to div.childNodes to support multiple top-level nodes.
+  return div.firstChild;
+}
+var outputDict = {}
+
+    function generate(){
+      outputDict = {"color":"#d9635a",
+    "title":document.getElementById('title').value}
+    var questions = []
+    var currentQn = ''
+  var lines = document.getElementById('template').value.split('\n');
+  for (var i = 0; i < lines.length; i++) {
+    var l = lines[i].replace(/\s+/, "");
+    if (l.substr(0,2)=='=='){
+      currentQn = l.substr(2,)
+
+    }
+    else if (l != '') {
+      questions.push([currentQn,l]);
+    }
+
+  }
+  outputDict['questions'] = questions;
+    }
+
+generate()
+
+
+    function exportconfig(){
+      generate()
+      var output = JSON.stringify(outputDict)
+         navigator.clipboard.writeText(output);
+
+      /* Alert the copied text */
+      alert("Copied the text: " + output);
+
+    }
+
+
+
+
+    </script>
+    </body>
+
+</html>
