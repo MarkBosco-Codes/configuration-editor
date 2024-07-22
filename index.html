@@ -122,12 +122,12 @@ var outputDict = {}
 
     function generate(){
       outputDict = {"color":"#d9635a",
-    "title":document.getElementById('title').value}
+    "title":document.getElementById('title').value.trim()}
     var questions = []
     var currentQn = ''
   var lines = document.getElementById('template').value.split('\n');
   for (var i = 0; i < lines.length; i++) {
-    var l = lines[i].replace(/\s+/, "");
+    var l = lines[i].trim();
     if (l.substr(0,2)=='=='){
       currentQn = l.substr(2,)
 
